@@ -7,7 +7,7 @@ ENV RSS_FEED_URL=https://example.com/rss
 ENV DOWNLOAD_DIR=/downloads
 
 # Install dependencies
-RUN pip install feedparser youtube_dl
+RUN pip install feedparser youtube_dl schedule
 
 # Copy your script
 COPY downloader.py ./downloader.py
