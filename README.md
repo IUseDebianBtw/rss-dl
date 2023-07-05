@@ -1,5 +1,7 @@
 # rssDownloader
 
+
+```
 version: "3.7"
 services:
    rss-downloader:
@@ -11,3 +13,4 @@ services:
     volumes:
       - /portainer/Files/AppData/Config/rssDownloader:/downloads
     restart: unless-stopped
+```
