@@ -1,0 +1,11 @@
+FROM python:3.8-slim
+
+WORKDIR /app
+
+# Install dependencies
+RUN pip install feedparser youtube_dl
+
+# Copy your script
+COPY script.py ./script.py
+
+CMD [ "python", "./script.py" ]
