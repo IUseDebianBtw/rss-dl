@@ -16,7 +16,7 @@ docker compose:
 version: "3.7"
 services:
   rss-downloader:
-    image: rss-downloader:latest
+    image: bossman7309/rss-dl:latest
     container_name: rssDownloader
     environment:
       - RSS_FEED_URL=example.com
