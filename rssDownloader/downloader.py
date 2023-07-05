@@ -2,33 +2,35 @@ import feedparser
 import youtube_dl
 import schedule
 import time
+import os
+
+# Retrieve the RSS feed URL and download directory from the environment variables
+feed_url = os.environ.get('RSS_FEED_URL', 'https://example.com/rss')
+download_dir = os.environ.get('DOWNLOAD_DIR', '/portainer/Files/AppData/Config/rssDownloader')
 
 def download_videos():
-    # specify the RSS feed url
-    feed_url = "https://rss.art19.com/part-of-the-problem"
-
-    # parse the feed
+    # Parse the feed
     feed = feedparser.parse(feed_url)
 
-    # setup youtube_dl options
+    # Setup youtube_dl options
     ydl_opts = {
-        'outtmpl': '/home/bossman7309/Videos',
+        'outtmpl': os.path.join(download_dir, '%(title)s.%(ext)s'),
     }
 
-    # for each entry in the feed
+    # For each entry in the feed
     for entry in feed.entries:
-        # for each link in the entry
+        # For each link in the entry
         for link in entry.links:
-            # if the link is a video
+            # If the link is a video
             if "video" in link.type:
-                # download the video using youtube_dl
+                # Download the video using youtube_dl
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([link.href])
 
-# schedule the job every 24 hours
+# Schedule the job every 24 hours
 schedule.every(24).hours.do(download_videos)
 
-# keep the script running
+# Keep the script running
 while True:
     schedule.run_pending()
     time.sleep(1)
