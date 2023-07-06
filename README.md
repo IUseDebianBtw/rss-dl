@@ -2,7 +2,7 @@
 
 rss-dl is a simple docker based rss downloader
 
-https://github.com/bossman7309/rss-dl/blob/main/images/rss-dlLogo.png
+(https://github.com/bossman7309/rss-dl/blob/main/images/rss-dlLogo.png)
 
 creator:
 
