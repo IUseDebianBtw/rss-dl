@@ -1,6 +1,6 @@
 # rssDownloader
 
-rss-dl is a simple rss downloader
+rss-dl is a simple docker based rss downloader
 
 creator:
 
