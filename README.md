@@ -14,6 +14,8 @@ pi-hosted:
 
 https://github.com/novaspirit/pi-hosted
 
+docker pull bossman7309/rss-dl
+
 docker compose:
 ```
 version: "3.7"
