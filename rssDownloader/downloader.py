@@ -8,16 +8,38 @@ import logging
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 
+logging.info('''
+
+@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
+@***********@@@@@@@@***********@
+@***********@@@@@@@@***********@
+@***********@%@@@@@@***********@
+@***********@@@@@@@@***********@
+@***********@@@@@@@@***********@
+@***########@@@@@@@@########***@
+@***##@@@@@@@@@@@@@@@@@@@@%#***@
+@******#%@@@@@@@@@@@@@@%#******@
+@*********#%@@@@@@@@%#*********@
+@***********##@@@%#************@
+@**************#***************@
+@******************************@
+@******************************@
+@******************************@
+@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
+           RSS-dl
+''')
+
 # Set the RSS feed URL
-feed_url = os.environ.get('RSS_FEED_URL', 'https://example.com/rss')
+feed_url = os.getenv('RSS_FEED_URL', 'https://example.com/rss')
 
 # Set the download directory directly
-download_dir = '/media/bossman7309/ORANGEHHD1/uploads'  # Change this to your desired pat /portainer/Files/AppData/Config/rssDownloader
+download_dir = '/portainer/Files/AppData/Config/rss-dl'  # Change this to your desired path within the Docker container
 
-# Log the directory
-logging.info(f'Set download directory: {download_dir}')
+# Check if directory exists, if not create it and log it
+if not os.path.exists(download_dir):
+    os.makedirs(download_dir)
+    logging.info(f'Download directory does not exist. Created directory: {download_dir}')
 
-logging.info('everything seems to be working')
 
 def download_videos():
     logging.info('Starting video download job...')
@@ -49,8 +71,6 @@ def download_videos():
                     logging.error(f'Permission denied when trying to download video: {link.href}')
                 except Exception as e:
                     logging.error(f'Failed to download video: {link.href} - {str(e)}')
-
-    logging.info('Video download job completed.')
 
 # Schedule the job every 24 hours
 schedule.every(24).hours.do(download_videos)
