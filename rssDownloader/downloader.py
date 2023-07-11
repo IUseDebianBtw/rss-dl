@@ -13,7 +13,7 @@ logging.info('''
 @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
 @***********@@@@@@@@***********@
 @***********@@@@@@@@***********@
-@***********@%@@@@@@***********@
+@***********@@@@@@@@***********@
 @***********@@@@@@@@***********@
 @***********@@@@@@@@***********@
 @***########@@@@@@@@########***@
@@ -40,6 +40,7 @@ if not os.path.exists(download_dir):
     os.makedirs(download_dir)
     logging.info(f'Download directory does not exist. Created directory: {download_dir}')
 
+logging.info('Everything seems to be working')
 
 def download_videos():
     logging.info('Starting video download job...')
