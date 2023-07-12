@@ -33,13 +33,20 @@ logging.info('''
 # Set the RSS feed URL
 feed_url = os.getenv('RSS_FEED_URL', 'https://example.com/rss')
 
+logging.info(f'RSS feed URL: {feed_url}')
+
 # Set the download directory directly
-download_dir = '/portainer/Files/AppData/Config/rss-dl'  # Change this to your desired path within the Docker container
+download_dir = '/portainer/Files/AppData/Config/rss-dl' 
 
 # Check if directory exists, if not create it and log it
 if not os.path.exists(download_dir):
     os.makedirs(download_dir)
-    logging.info(f'Download directory does not exist. Created directory: {download_dir}')
+    logging.info(f'Download directory did not exist. Created directory: {download_dir}')
+else:
+    logging.info(f'Download directory exists. No need to create one.')
+
+# logging directory
+logging.info(f'Set download directory: {download_dir}')
 
 logging.info('Everything seems to be working')
 
