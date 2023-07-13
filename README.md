@@ -1,5 +1,5 @@
 # rssDownloader
-
+```
 rss-dl is a simple docker based rss downloader
 
 ![Logo](./images/rss-dl-logo-grey.png)
@@ -18,7 +18,7 @@ https://github.com/novaspirit/pi-hosted
 docker pull bossman7309/rss-dl
 
 docker compose:
-```
+
 version: "3.7"
 services:
   rss-downloader:
@@ -30,4 +30,5 @@ services:
     volumes:
       - /portainer/Files/AppData/Config/rssDownloader:/downloads
     restart: unless-stopped
+
 ```
