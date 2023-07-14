@@ -20,7 +20,7 @@ def initialize_logging():
 # Initialize the channel URL
 def initialize_channel_url():
     """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://rss.art19.com/part-of-the-problem')
+    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@MentalOutlaw')
     logging.info(f'Channel URL: {channel_url}')
     return channel_url
 
@@ -40,20 +40,20 @@ def set_feed_url(browse_id):
     return feed_url
 
 # Initialize the download directory
-def initialize_download_dir():
-#    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
-    download_dir = os.getenv('DOWNLOAD_DIR')
-    setup_directory(download_dir)
-    logging.info(f'Set download directory: {download_dir}') #
-    return download_dir
-
-
 #def initialize_download_dir():
-#    """Creates the download directory if not exists and logs it."""
-#    download_dir = '/home/bossman7309/Videos'  # Set the download directory manually
+#    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
+#    download_dir = os.getenv('DOWNLOAD_DIR')
 #    setup_directory(download_dir)
-#    logging.info(f'Set download directory: {download_dir}')
+#    logging.info(f'Set download directory: {download_dir}') #
 #    return download_dir
+
+
+def initialize_download_dir():
+    """Creates the download directory if not exists and logs it."""
+    download_dir = '/home/bossman7309/Videos'  # Set the download directory manually
+    setup_directory(download_dir)
+    logging.info(f'Set download directory: {download_dir}')
+    return download_dir
 
 
 # Download videos
