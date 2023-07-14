@@ -1,4 +1,4 @@
-# rssDownloader
+# RSS-dl
 ![rss-dl](images/rss-dl-image.png)
 
 rss-dl is a simple docker based rss downloader
