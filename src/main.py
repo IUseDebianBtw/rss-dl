@@ -5,8 +5,8 @@ import schedule
 import time
 import feedparser
 import yt_dlp as youtube_dl
-from .directory_setup import setup_directory
-from .video_downloader import download_videos
+from directory_setup import setup_directory
+from video_downloader import download_videos
 
 # Initialize logging configuration
 def initialize_logging():
@@ -20,7 +20,7 @@ def initialize_logging():
 # Initialize the channel URL
 def initialize_channel_url():
     """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@MentalOutlaw')
+    channel_url = os.getenv('CHANNEL_URL', 'https://rss.art19.com/part-of-the-problem')
     logging.info(f'Channel URL: {channel_url}')
     return channel_url
 
@@ -41,11 +41,20 @@ def set_feed_url(browse_id):
 
 # Initialize the download directory
 def initialize_download_dir():
-    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
+#    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
     download_dir = os.getenv('DOWNLOAD_DIR')
     setup_directory(download_dir)
-    logging.info(f'Set download directory: {download_dir}')
+    logging.info(f'Set download directory: {download_dir}') #
     return download_dir
+
+
+#def initialize_download_dir():
+#    """Creates the download directory if not exists and logs it."""
+#    download_dir = '/home/bossman7309/Videos'  # Set the download directory manually
+#    setup_directory(download_dir)
+#    logging.info(f'Set download directory: {download_dir}')
+#    return download_dir
+
 
 # Download videos
 def initialize_video_downloads(feed_url, download_dir):
