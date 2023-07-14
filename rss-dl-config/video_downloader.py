@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import os
 import logging
 
-def download_video(youtube_url, download_dir):
+def download_videos(youtube_url, download_dir):
     ydl_opts = {
         'outtmpl': os.path.join(download_dir, '%(title)s.%(ext)s'),
     }
@@ -19,9 +19,16 @@ def download_video(youtube_url, download_dir):
     except Exception as e:
         logging.error(f'Failed to download video: {youtube_url} - {str(e)}')
 
-def test_download_video(download_dir, youtube_urls):
-    for url in youtube_urls:
-        download_video(url, download_dir)
 
-if __name__ == "__main__":
-    test_download_video('/home/bossman7309/Videos', ['https://www.youtube.com/watch?v=AjXLblBzWvs']) 
+def download_videos_from_feed(feed_url, download_dir):
+    # Parse the feed
+    feed = feedparser.parse(feed_url)
+
+    # For each entry in the feed
+    for entry in feed.entries:
+        # For each link in the entry
+        for link in entry.links:
+            # If the link is a video
+            if "video" in link.type:
+                # Download the video
+                download_videos(link.href, download_dir)
