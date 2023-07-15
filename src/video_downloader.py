@@ -3,28 +3,15 @@ import yt_dlp as youtube_dl
 import os
 import logging
 import requests
+from datetime import datetime
 
-def download_videos(youtube_url, download_dir):
+def download_videos(youtube_url, download_dir, time_limit):
     ydl_opts = {
         'outtmpl': os.path.join(download_dir, '%(title)s.%(ext)s'),
     }
 
-    # Download the video using youtube_dl
-    try:
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([youtube_url])
-        logging.info(f'Successfully downloaded video: {youtube_url}')
-    except PermissionError:
-        logging.error(f'Permission denied when trying to download video: {youtube_url}')
-    except Exception as e:
-        logging.error(f'Failed to download video: {youtube_url} - {str(e)}')
-
-def download_videos_from_feed(feed_url, download_dir):
     # Parse the feed
-    feed = feedparser.parse(feed_url)
-    line_separated_json = '\n'.join(str(feed).split(','))
-    logging.info(f'Feed: {line_separated_json}')
-    
+    feed = feedparser.parse(youtube_url)
 
     # For each entry in the feed
     for entry in feed.entries:
@@ -32,5 +19,16 @@ def download_videos_from_feed(feed_url, download_dir):
         for link in entry.links:
             # If the link is a video
             if 'youtube.com/watch?v=' in link.href:
-                # Download the video
-                download_videos(link.href, download_dir)
+                # Parse the published time into a datetime object
+                published_time = datetime.strptime(entry.published, "%Y-%m-%dT%H:%M:%S%z")
+                # If the video was published within the last 24 hours
+                if published_time > time_limit:
+                    # Download the video using youtube_dl
+                    try:
+                        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([link.href])
+                        logging.info(f'Successfully downloaded video: {link.href}')
+                    except PermissionError:
+                        logging.error(f'Permission denied when trying to download video: {link.href}')
+                    except Exception as e:
+                        logging.error(f'Failed to download video: {link.href} - {str(e)}')
