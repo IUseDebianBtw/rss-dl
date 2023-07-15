@@ -77,8 +77,14 @@ def initialize_video_downloads(feed_url, download_dir):
 
 if __name__ == "__main__":
     initialize_logging()
-    channel_url = initialize_channel_url()
-    browse_id = get_browse_id(channel_url)
-    feed_url = set_feed_url(browse_id)
-    download_dir = initialize_download_dir()
-    initialize_video_downloads(feed_url, download_dir)
+    link = initialize_channel_url()
+    if "youtube.com" in link:
+        channel_url = link
+        browse_id = get_browse_id(channel_url)
+        feed_url = set_feed_url(browse_id)
+        download_dir = initialize_download_dir()
+        initialize_video_downloads(feed_url, download_dir)
+    else:
+        feed_url = link
+        download_dir = initialize_download_dir()
+        initialize_video_downloads(feed_url, download_dir)
