@@ -3,8 +3,7 @@ FROM python:3.8-slim
 WORKDIR /app
 
 # Set Environment Variables
-ENV CHANNEL_URL=https://youtube.com/@MentalOutlaw
-ENV DOWNLOAD_PATH=/app/downloads
+ENV CHANNEL_URLS=https://youtube.com/@MentalOutlaw,https://www.youtube.com/@HiddenXperia,https://www.youtube.com/@TheActMan
 
 # Copy your scripts
 COPY ./src /app/src
