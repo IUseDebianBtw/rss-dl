@@ -7,6 +7,7 @@ import feedparser
 import yt_dlp as youtube_dl
 from directory_setup import setup_directory
 from video_downloader import download_videos
+from datetime import datetime, timedelta, timezone
 
 # Initialize logging configuration
 def initialize_logging():
@@ -44,25 +45,25 @@ def set_feed_urls(browse_ids):
 # Initialize the download directory
 def initialize_download_dir():
     """Creates the download directory if not exists and logs it."""
-    download_dir = '/home/bossman7309/Videos'  # Set the download directory manually
+    download_dir = '/home/dh/Videos'  # Set the download directory manually
     setup_directory(download_dir)
     logging.info(f'Set download directory: {download_dir}')
     return download_dir
 
-# Download videos
+# Initialize video downloads
 def initialize_video_downloads(feed_urls, download_dir):
     """Downloads the videos and sets up the schedule for subsequent downloads."""
     for feed_url in feed_urls:
         logging.info(f'Initiating video download for feed {feed_url}')
-        download_videos(feed_url, download_dir)
+        download_videos(feed_url, download_dir, datetime.now(timezone.utc) - timedelta(days=1))
         logging.info('Everything seems to be working')
 
         # Schedule the job every 24 hours
-        schedule.every(24).hours.do(download_videos, feed_url, download_dir)
+        schedule.every(24).hours.do(download_videos, feed_url, download_dir, datetime.now() - timedelta(days=1))
 
         # Uncomment below lines for testing purposes
-        # schedule.every(1).minutes.do(download_videos, feed_url, download_dir) 
-        # schedule.every(30).seconds.do(download_videos, feed_url, download_dir)
+        # schedule.every(1).minutes.do(download_videos, feed_url, download_dir, datetime.now() - timedelta(days=1)) 
+        # schedule.every(30).seconds.do(download_videos, feed_url, download_dir, datetime.now() - timedelta(days=1))
 
     # Start the scheduler
     while True:
