@@ -28,12 +28,9 @@ services:
     image: bossman7309/rss-dl:latest
     container_name: rssDownloader
     environment:
-      - RSS_FEED_URL=example.com
-      - DOWNLOAD_DIR=/downloads
+      - CHANNEL_URLS=https://youtube.com/@MentalOutlaw,https://youtube.com/@NovaspiritTech
     volumes:
       - /portainer/Files/AppData/Config/rssDownloader:/downloads
     restart: unless-stopped
 
 ```
-
-
