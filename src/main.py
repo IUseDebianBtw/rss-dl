@@ -17,12 +17,13 @@ def initialize_logging():
         ascii_art = f.read()
         logging.info(ascii_art)
 
-# Initialize the channel URL
-def initialize_channel_url():
-    """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@MentalOutlaw')
-    logging.info(f'Channel URL: {channel_url}')
-    return channel_url
+# Initialize the channel URLs
+def initialize_channel_urls():
+    """Reads CHANNEL_URLS from environment variables and logs them."""
+    channel_urls = os.getenv('CHANNEL_URLS', 'https://www.youtube.com/@MentalOutlaw').split(',')
+    for url in channel_urls:
+        logging.info(f'Channel URL: {url}')
+    return channel_urls
 
 # Get the channel ID
 def get_browse_id(channel_url):
@@ -32,22 +33,15 @@ def get_browse_id(channel_url):
     logging.info(f'Channel ID: {browse_id}')
     return browse_id
 
-# Set the feed URL
-def set_feed_url(browse_id):
-    """Generates the feed URL using the browse ID."""
-    feed_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={browse_id}"
-    logging.info(f'Feed URL: {feed_url}')
-    return feed_url
+# Set the feed URLs
+def set_feed_urls(browse_ids):
+    """Generates the feed URLs using the browse IDs."""
+    feed_urls = [f"https://www.youtube.com/feeds/videos.xml?channel_id={id}" for id in browse_ids]
+    for url in feed_urls:
+        logging.info(f'Feed URL: {url}')
+    return feed_urls
 
 # Initialize the download directory
-#def initialize_download_dir():
-#    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
-#    download_dir = os.getenv('DOWNLOAD_DIR')
-#    setup_directory(download_dir)
-#    logging.info(f'Set download directory: {download_dir}') #
-#    return download_dir
-
-
 def initialize_download_dir():
     """Creates the download directory if not exists and logs it."""
     download_dir = '/home/bossman7309/Videos'  # Set the download directory manually
@@ -55,20 +49,20 @@ def initialize_download_dir():
     logging.info(f'Set download directory: {download_dir}')
     return download_dir
 
-
 # Download videos
-def initialize_video_downloads(feed_url, download_dir):
+def initialize_video_downloads(feed_urls, download_dir):
     """Downloads the videos and sets up the schedule for subsequent downloads."""
-    logging.info('Initiating video download')
-    download_videos(feed_url, download_dir)
-    logging.info('Everything seems to be working')
+    for feed_url in feed_urls:
+        logging.info(f'Initiating video download for feed {feed_url}')
+        download_videos(feed_url, download_dir)
+        logging.info('Everything seems to be working')
 
-    # Schedule the job every 24 hours
-    schedule.every(24).hours.do(download_videos, feed_url, download_dir)
+        # Schedule the job every 24 hours
+        schedule.every(24).hours.do(download_videos, feed_url, download_dir)
 
-    # Uncomment below lines for testing purposes
-    # schedule.every(1).minutes.do(download_videos, feed_url, download_dir) 
-    # schedule.every(30).seconds.do(download_videos, feed_url, download_dir)
+        # Uncomment below lines for testing purposes
+        # schedule.every(1).minutes.do(download_videos, feed_url, download_dir) 
+        # schedule.every(30).seconds.do(download_videos, feed_url, download_dir)
 
     # Start the scheduler
     while True:
@@ -77,14 +71,15 @@ def initialize_video_downloads(feed_url, download_dir):
 
 if __name__ == "__main__":
     initialize_logging()
-    link = initialize_channel_url()
-    if "youtube.com" in link:
-        channel_url = link
-        browse_id = get_browse_id(channel_url)
-        feed_url = set_feed_url(browse_id)
-        download_dir = initialize_download_dir()
-        initialize_video_downloads(feed_url, download_dir)
-    else:
-        feed_url = link
-        download_dir = initialize_download_dir()
-        initialize_video_downloads(feed_url, download_dir)
+    links = initialize_channel_urls()
+    feed_urls = []
+    for link in links:
+        if "youtube.com" in link:
+            channel_url = link
+            browse_id = get_browse_id(channel_url)
+            feed_urls.extend(set_feed_urls([browse_id]))
+        else:
+            feed_urls.append(link)
+
+    download_dir = initialize_download_dir()
+    initialize_video_downloads(feed_urls, download_dir)
