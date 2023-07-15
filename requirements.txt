@@ -2,3 +2,4 @@ python-dotenv
 feedparser
 schedule
 yt-dlp
+requests
