@@ -22,8 +22,6 @@ def download_videos(youtube_url, download_dir):
 def download_videos_from_feed(feed_url, download_dir):
     # Parse the feed
     feed = feedparser.parse(feed_url)
-    line_separated_json = '\n'.join(str(feed).split(','))
-    logging.info(f'Feed: {line_separated_json}')
     
 
     # For each entry in the feed

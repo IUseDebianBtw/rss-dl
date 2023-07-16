@@ -63,8 +63,7 @@ def initialize_video_downloads(feed_url, download_dir):
 
     # Parse the feed
     feed = feedparser.parse(feed_url)
-    line_separated_json = '\n'.join(str(feed).split(','))
-    logging.info(f'Feed: {line_separated_json}')
+
 
     # Get the current time and subtract 24 hours to get the time 24 hours ago
     time_24_hours_ago = time.mktime(time.gmtime()) - 24*60*60
