@@ -20,7 +20,7 @@ def initialize_logging():
 # Initialize the channel URL
 def initialize_channel_url():
     """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@DuranMedine')
+    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@BrodieRobertson')
     logging.info(f'Channel URL: {channel_url}')
     return channel_url
 
@@ -90,6 +90,13 @@ def initialize_video_downloads(feed_url, download_dir):
     if not new_videos_found:
         logging.info("No new videos found in the last 24 hours. Stopping script.")
         exit(0)  # Exit the script if no new videos were found
+            # Schedule the job every 24 hours
+
+    schedule.every(24).hours.do(initialize_video_downloads, feed_url, download_dir)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
         

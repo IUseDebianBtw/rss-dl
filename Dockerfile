@@ -4,15 +4,12 @@ WORKDIR /app
 
 # Set Environment Variables
 ENV CHANNEL_URL=https://youtube.com/@MentalOutlaw
-ENV DOWNLOAD_PATH=/app/downloads
+ENV DOWNLOAD_PATH=/media/bossman7309/ORANGEHHD/uploads
 
 # Copy your scripts
 COPY ./src /app/src
 
-# Copy requirements.txt from the project root into the Docker image
-COPY requirements.txt /app/
-
 # Install dependencies
-RUN pip install -r /app/requirements.txt
+RUN pip install -r feedparser, schedule, yt-dlp, schedule, requests
 
 CMD [ "python", "-m", "src.main" ]
