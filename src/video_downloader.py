@@ -7,7 +7,7 @@ import requests
 def download_videos(youtube_url, download_dir):
     ydl_opts = {
         'outtmpl': os.path.join(download_dir, '%(title)s.%(ext)s'),
-    }
+    }   #'quiet': True,
 
     # Download the video using youtube_dl
     try:

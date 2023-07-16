@@ -20,7 +20,7 @@ def initialize_logging():
 # Initialize the channel URL
 def initialize_channel_url():
     """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@MentalOutlaw')
+    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@DuranMedine')
     logging.info(f'Channel URL: {channel_url}')
     return channel_url
 
@@ -50,7 +50,7 @@ def set_feed_url(browse_id):
 
 def initialize_download_dir():
     """Creates the download directory if not exists and logs it."""
-    download_dir = '/home/bossman7309/Videos'  # Set the download directory manually
+    download_dir = '/media/bossman7309/Bossmanhhd'  # Set the download directory manually (for testing purposes only)
     setup_directory(download_dir)
     logging.info(f'Set download directory: {download_dir}')
     return download_dir
@@ -60,21 +60,40 @@ def initialize_download_dir():
 def initialize_video_downloads(feed_url, download_dir):
     """Downloads the videos and sets up the schedule for subsequent downloads."""
     logging.info('Initiating video download')
-    download_videos(feed_url, download_dir)
-    logging.info('Everything seems to be working')
 
-    # Schedule the job every 24 hours
-    schedule.every(24).hours.do(download_videos, feed_url, download_dir)
+    # Parse the feed
+    feed = feedparser.parse(feed_url)
+    line_separated_json = '\n'.join(str(feed).split(','))
+    logging.info(f'Feed: {line_separated_json}')
 
-    # Uncomment below lines for testing purposes
-    # schedule.every(1).minutes.do(download_videos, feed_url, download_dir) 
-    # schedule.every(30).seconds.do(download_videos, feed_url, download_dir)
+    # Get the current time and subtract 24 hours to get the time 24 hours ago
+    time_24_hours_ago = time.mktime(time.gmtime()) - 24*60*60
 
-    # Start the scheduler
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # A flag to indicate if any new videos were found
+    new_videos_found = False
 
+    # For each entry in the feed
+    for entry in feed.entries:
+        # For each link in the entry
+        for link in entry.links:
+            # If the link is a video
+            if 'youtube.com/watch?v=' in link.href:
+                # Check if the video was published within the last 24 hours
+                if time.mktime(entry.published_parsed) > time_24_hours_ago:
+                    # Download the video
+                    download_videos(link.href, download_dir)
+                    new_videos_found = True
+            else:
+                # If the link is not a YouTube video, download it regardless of publication time
+                download_videos(link.href, download_dir)
+                new_videos_found = True
+
+    if not new_videos_found:
+        logging.info("No new videos found in the last 24 hours. Stopping script.")
+        exit(0)  # Exit the script if no new videos were found
+
+
+        
 if __name__ == "__main__":
     initialize_logging()
     link = initialize_channel_url()
