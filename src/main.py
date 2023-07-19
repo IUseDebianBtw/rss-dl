@@ -48,11 +48,12 @@ def set_feed_url(browse_id):
 #    return download_dir
 
 
+# Initialize the download directory
 def initialize_download_dir():
-    """Creates the download directory if not exists and logs it."""
-    download_dir = '/media/bossman7309/Bossmanhhd'  # Set the download directory manually (for testing purposes only)
+    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
+    download_dir = os.getenv('DOWNLOAD_PATH', "/default/path")
     setup_directory(download_dir)
-    logging.info(f'Set download directory: {download_dir}')
+    logging.info(f'Set download directory: {download_dir}') #
     return download_dir
 
 
