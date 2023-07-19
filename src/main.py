@@ -20,7 +20,7 @@ def initialize_logging():
 # Initialize the channel URL
 def initialize_channel_url():
     """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@BrodieRobertson')
+    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@Fireship')
     logging.info(f'Channel URL: {channel_url}')
     return channel_url
 
