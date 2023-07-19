@@ -22,16 +22,16 @@ docker pull bossman7309/rss-dl
 
 docker compose:
 ```
-version: "3.7"
+version: '3.8'
+
 services:
-  rss-downloader:
-    image: bossman7309/rss-dl:latest
-    container_name: rssDownloader
-    environment:
-      - RSS_FEED_URL=example.com
-      - DOWNLOAD_DIR=/downloads
+  youtube-downloader:
+    image: rss-dlv1:latest
+    environment: 
+      - CHANNEL_URL=https://www.youtube.com/example/videos
+      - DOWNLOAD_PATH=/portainer/Files/AppData/Config/rss-dl
     volumes:
-      - /portainer/Files/AppData/Config/rssDownloader:/downloads
+      - /portainer/Files/AppData/Config:/downloads
     restart: unless-stopped
 
 ```
