@@ -20,7 +20,7 @@ def initialize_logging():
 # Initialize the channel URL
 def initialize_channel_url():
     """Reads CHANNEL_URL from environment variables and logs it."""
-    channel_url = os.getenv('CHANNEL_URL', 'https://www.youtube.com/@Fireship')
+    channel_url = os.getenv('CHANNEL_URL', 'example.com/videos')
     logging.info(f'Channel URL: {channel_url}')
     return channel_url
 
@@ -50,7 +50,7 @@ def initialize_download_dir():
 
 #def initialize_download_dir():
 #    """Creates the download directory if not exists and logs it."""
-#    download_dir = '/media/bossman7309/ORANGEHHD/uploads'  # Set the download directory manually (for testing purposes only)
+#    download_dir = '/portainer/Files/AppData/Config/rss-dl'  # Set the download directory manually (for testing purposes only)
 #    setup_directory(download_dir)
 #    logging.info(f'Set download directory: {download_dir}')
 #    return download_dir
