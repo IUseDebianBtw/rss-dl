@@ -40,21 +40,20 @@ def set_feed_url(browse_id):
     return feed_url
 
 # Initialize the download directory
-#def initialize_download_dir():
-#    """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
-#    download_dir = os.getenv('DOWNLOAD_DIR')
-#    setup_directory(download_dir)
-#    logging.info(f'Set download directory: {download_dir}') #
-#    return download_dir
-
-
-# Initialize the download directory
 def initialize_download_dir():
     """Reads DOWNLOAD_DIR from environment variables, creates it if not exists, and logs it."""
     download_dir = os.getenv('DOWNLOAD_PATH', "/default/path")
     setup_directory(download_dir)
     logging.info(f'Set download directory: {download_dir}') #
     return download_dir
+
+
+#def initialize_download_dir():
+#    """Creates the download directory if not exists and logs it."""
+#    download_dir = '/media/bossman7309/ORANGEHHD/uploads'  # Set the download directory manually (for testing purposes only)
+#    setup_directory(download_dir)
+#    logging.info(f'Set download directory: {download_dir}')
+#    return download_dir
 
 
 # Download videos
@@ -91,15 +90,13 @@ def initialize_video_downloads(feed_url, download_dir):
     if not new_videos_found:
         logging.info("No new videos found in the last 24 hours. Stopping script.")
         exit(0)  # Exit the script if no new videos were found
-            # Schedule the job every 24 hours
 
-    schedule.every(24).hours.do(initialize_video_downloads, feed_url, download_dir)
+        schedule.every(24).hours.do(initialize_video_downloads, feed_url, download_dir)
+
 
     while True:
         schedule.run_pending()
         time.sleep(1)
-
-
         
 if __name__ == "__main__":
     initialize_logging()
